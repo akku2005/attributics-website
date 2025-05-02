@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+:root {
+  --primary-light: #1D4ED8;
+  --primary-dark: #60A5FA;
+  --secondary-light: #9333EA;
+  --secondary-dark: #C084FC;
+}
+
+html {
+  @apply bg-white text-gray-900 transition-colors duration-200;
+}
+
+html.dark {
+  @apply bg-gray-900 text-gray-100;
+}
+
+body {
+  @apply min-h-screen font-sans;
+}
+
+/* Theme-aware styles */
+.primary-light {
+  color: var(--primary-light);
+}
+
+.dark .primary-light {
+  color: var(--primary-dark);
+}
+
+.primary-dark {
+  color: var(--primary-dark);
+}
+
+.dark .primary-dark {
+  color: var(--primary-light);
+}
+
+.bg-primary-light {
+  background-color: var(--primary-light);
+}
+
+.dark .bg-primary-light {
+  background-color: var(--primary-dark);
+}
+
+.bg-primary-dark {
+  background-color: var(--primary-dark);
+}
+
+.dark .bg-primary-dark {
+  background-color: var(--primary-light);
+}
