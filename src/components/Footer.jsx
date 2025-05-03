@@ -41,10 +41,10 @@ function Footer() {
 
   // Company links for the footer
   const company = [
-    { title: "About Us", href: "#about" },
+    { title: "About Us", href: "/about" },
     { title: "Careers", href: "#careers" },
     { title: "Blog", href: "#blog" },
-    { title: "Contact", href: "#contact" }
+    { title: "Contact", href: "/contact" }
   ];
 
   // Social media links
@@ -238,7 +238,6 @@ function Footer() {
           <motion.div variants={itemVariants} className="flex flex-wrap gap-4 md:gap-8 justify-center">
             <a href="#terms" className="text-blue-100 hover:text-white transition-colors text-sm">Terms of Service</a>
             <a href="#privacy" className="text-blue-100 hover:text-white transition-colors text-sm">Privacy Policy</a>
-            <a href="#cookies" className="text-blue-100 hover:text-white transition-colors text-sm">Cookie Policy</a>
           </motion.div>
         </div>
       </div>

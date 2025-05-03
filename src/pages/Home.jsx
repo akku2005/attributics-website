@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 
 function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -48,6 +49,30 @@ function Home() {
     { name: "Akasa Air", logo: "/api/placeholder/150/50" },
   ];
 
+  // Client reviews
+  const reviews = [
+    {
+      text: "Attributics helped us increase our ROAS by 175% in just three months. The platform's insights were game-changing for our strategy.",
+      author: "Sarah J., Marketing Director",
+      company: "TechVision Inc."
+    },
+    {
+      text: "The cross-channel attribution model provided by Attributics gave us visibility we never had before. We've optimized our ad spend and seen a 43% increase in conversions.",
+      author: "Michael T., Digital Marketing Manager",
+      company: "Retail Solutions"
+    },
+    {
+      text: "Implementing Attributics' AI segmentation tools transformed our customer targeting approach. We're now reaching the right audiences with the right messages at the right time.",
+      author: "Elena R., CMO",
+      company: "Global Brands Group"
+    },
+    {
+      text: "The team at Attributics has been incredible to work with. Their platform is intuitive, powerful, and has become an essential part of our marketing stack.",
+      author: "David K., Head of Growth",
+      company: "SaaS Enterprise"
+    }
+  ];
+
   // Stats for the Our Story section
   const stats = [
     { 
@@ -75,6 +100,23 @@ function Home() {
       subtext: "MEDIA ACTIVATION" 
     },
   ];
+
+  // Function to handle review navigation
+  const goToReview = (index) => {
+    setCurrentReviewIndex(index);
+  };
+
+  const nextReview = () => {
+    setCurrentReviewIndex((prevIndex) => 
+      prevIndex === reviews.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevReview = () => {
+    setCurrentReviewIndex((prevIndex) => 
+      prevIndex === 0 ? reviews.length - 1 : prevIndex - 1
+    );
+  };
 
   // Animation variants
   const containerVariants = {
@@ -104,6 +146,13 @@ function Home() {
       opacity: 1,
       transition: { duration: 0.6, ease: "easeOut" },
     },
+  };
+
+  const reviewVariants = {
+    initial: { opacity: 0, x: 100 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: -100 },
+    transition: { duration: 0.4 }
   };
 
   return (
@@ -465,26 +514,70 @@ function Home() {
                 <h3 className="text-xl font-bold text-white">What Our Clients Say</h3>
               </div>
 
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
-                className="bg-white/10 dark:bg-gray-700/30 p-4 rounded-xl mb-4"
-              >
-                <p className="italic mb-3 text-white">
-                  "Attributics helped us increase our ROAS by 175% in just three months. The platform's insights were game-changing for our strategy."
-                </p>
-                <div className="font-medium text-blue-100 dark:text-blue-200">Sarah J., Marketing Director</div>
-              </motion.div>
+              {/* Reviews Carousel */}
+              <div className="relative">
+                <div className="overflow-hidden">
+                  <motion.div
+                    key={currentReviewIndex}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={reviewVariants}
+                    className="bg-white/10 dark:bg-gray-700/30 p-4 rounded-xl mb-4"
+                  >
+                    <p className="italic mb-3 text-white">
+                      "{reviews[currentReviewIndex].text}"
+                    </p>
+                    <div className="font-medium text-blue-100 dark:text-blue-200">
+                      {reviews[currentReviewIndex].author}
+                    </div>
+                    <div className="text-sm text-blue-200/70 dark:text-blue-300/70">
+                      {reviews[currentReviewIndex].company}
+                    </div>
+                  </motion.div>
+                </div>
 
-              <div className="flex justify-center space-x-2 mt-4">
-                <motion.div
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ repeat: Infinity, repeatDelay: 2, duration: 0.5 }}
-                  className="w-2 h-2 rounded-full bg-blue-300 dark:bg-blue-500"
-                />
-                <div className="w-2 h-2 rounded-full bg-white/50 dark:bg-gray-500/50"></div>
-                <div className="w-2 h-2 rounded-full bg-white/50 dark:bg-gray-500/50"></div>
+                {/* Navigation Arrows */}
+                <div className="flex justify-between mt-2">
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={prevReview}
+                    className="w-8 h-8 rounded-full bg-white/20 dark:bg-gray-700/50 flex items-center justify-center text-white"
+                  >
+                    ←
+                  </motion.button>
+                  
+                  {/* Dots Navigation */}
+                  <div className="flex justify-center space-x-2 mt-2">
+                    {reviews.map((_, index) => (
+                      <motion.button
+                        key={index}
+                        onClick={() => goToReview(index)}
+                        whileHover={{ scale: 1.2 }}
+                        animate={currentReviewIndex === index ? 
+                          { scale: [1, 1.2, 1], backgroundColor: "#60A5FA" } : 
+                          { scale: 1, backgroundColor: "rgba(255, 255, 255, 0.3)" }
+                        }
+                        transition={{ duration: 0.4 }}
+                        className={`w-2 h-2 rounded-full ${
+                          currentReviewIndex === index 
+                            ? "bg-blue-400 dark:bg-blue-500" 
+                            : "bg-white/30 dark:bg-gray-500/50"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={nextReview}
+                    className="w-8 h-8 rounded-full bg-white/20 dark:bg-gray-700/50 flex items-center justify-center text-white"
+                  >
+                    →
+                  </motion.button>
+                </div>
               </div>
             </div>
           </motion.div>
